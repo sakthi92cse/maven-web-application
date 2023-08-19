@@ -17,6 +17,7 @@ spec:
       containers:
         - name: mavenwebappcontainer
           image: velcsekrish/maven-web-application:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 ---
