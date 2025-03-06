@@ -20,7 +20,7 @@ jobs:
           name: Build Docker image
           command: |
             docker build -t sivavel/mavenwebapp:latest .
-            echo $Docker_PASSWORD | docker login -u Sivavel --password-stdin
+            echo $Docker_PASSWORD | docker login -u $Docker_UserName --password-stdin
             docker push sivavel/mavenwebapp:latest
 
   deploy-to-eks:
