@@ -27,7 +27,7 @@ jobs:
         - run:
             name: Push Docker image to Docker Hub
             command: |
-            docker push sivavel/mavenwebapp:v5
+              docker push sivavel/mavenwebapp:v5
 
 
   
