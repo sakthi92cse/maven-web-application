@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-and-push-docker-image:
     docker:
-      - image: circleci/docker:19.03.12-git
+      - image: docker:latest
     steps:
       - checkout
       - setup_remote_docker
