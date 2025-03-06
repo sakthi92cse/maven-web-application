@@ -1,33 +1,24 @@
 version: 2.1
 
 jobs:
-  build:
+  build-and-push-docker-image:
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: circleci/docker:19.03.12-git
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Build the application
-          command: mvn clean package
-
-    build-and-push-docker-image:
-      docker:
-        - image: circleci/docker:19.03.12-git
-      steps:
-        - checkout
-        - setup_remote_docker
-        - run:
-            name: Log in to Docker Hub
-            command: |
-              echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-        - run:
-            name: Build Docker image
-            command: |
-              docker build -t sivavel/mavenwebapp:v5 .
-        - run:
-            name: Push Docker image to Docker Hub
-            command: |
-              docker push sivavel/mavenwebapp:v5
+          name: Log in to Docker Hub
+          command: |
+            echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t sivavel/mavenwebapp:v5 .
+      - run:
+          name: Push Docker image to Docker Hub
+          command: |
+            docker push sivavel/mavenwebapp:v5  
 
 
   
