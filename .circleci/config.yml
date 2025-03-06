@@ -9,12 +9,18 @@ jobs:
       - run:
           name: Build the application
           command: mvn clean package
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - target/  # Persist the target directory to the workspace
 
   build-and-push-docker-image:
     docker:
       - image: docker:latest
     steps:
       - checkout
+      - attach_workspace:
+          at: ./  # Attach the workspace to restore the target directory
       - setup_remote_docker
       - run:
           name: Log in to Docker Hub
@@ -31,11 +37,9 @@ jobs:
 
 workflows:
   version: 2
-  build:
+  build-and-push:
     jobs:
       - build
       - build-and-push-docker-image:
           requires:
             - build
-  
-       
