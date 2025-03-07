@@ -40,6 +40,8 @@ jobs:
       - image: amazon/aws-cli:latest
     steps:
       - checkout
+      - attach_workspace:
+          at: ./  # Attach the workspace to access the repository files
       - run:
           name: Install kubectl
           command: |
@@ -59,11 +61,7 @@ jobs:
       - run:
           name: Deploy to EKS
           command: |
-            kubectl apply -f mavenwebappdeployment.yaml
-      - persist_to_workspace:
-            root: ./
-            paths:
-              - Kubernetes/mavenwebappdeployment.yaml
+            kubectl apply -f kubernetes/mavenwebappdeployment.yaml  # Correct path to mavenwebappdeployment.yaml
 
 workflows:
   version: 2
