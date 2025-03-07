@@ -41,9 +41,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install tar utility
+          name: Install tar and gzip utilities
           command: |
-            yum install -y tar  # Install tar using yum in the amazon/aws-cli image
+            yum install -y tar gzip  # Install tar and gzip using yum in the amazon/aws-cli image
       - attach_workspace:
           at: ./  # Attach the workspace to access the repository files
       - run:
