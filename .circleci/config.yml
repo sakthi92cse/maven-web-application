@@ -60,6 +60,10 @@ jobs:
           name: Deploy to EKS
           command: |
             kubectl apply -f deployment.yaml
+      - persist_to_workspace:
+            root: ./
+            paths:
+              - Kubernetes/
 
 workflows:
   version: 2
