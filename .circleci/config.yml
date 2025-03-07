@@ -59,11 +59,11 @@ jobs:
       - run:
           name: Deploy to EKS
           command: |
-            kubectl apply -f deployment.yaml
+            kubectl apply -f mavenwebappdeployment.yaml
       - persist_to_workspace:
             root: ./
             paths:
-              - Kubernetes/
+              - Kubernetes/mavenwebappdeployment.yaml
 
 workflows:
   version: 2
