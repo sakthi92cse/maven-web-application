@@ -40,6 +40,10 @@ jobs:
       - image: amazon/aws-cli:latest
     steps:
       - checkout
+      - run:
+          name: Install tar utility
+          command: |
+            apk add --no-cache tar  # Install tar in the alpine-based amazon/aws-cli image
       - attach_workspace:
           at: ./  # Attach the workspace to access the repository files
       - run:
