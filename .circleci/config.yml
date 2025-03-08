@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Deploy to EKS
           command: |
-            kubectl apply -f kubernetes/mavenwebappdeployment.yaml  # Correct path to mavenwebappdeployment.yaml
+            kubectl apply -f Kubernetes/mavenwebappdeployment.yaml  # Correct path to mavenwebappdeployment.yaml
 
 workflows:
   version: 2
