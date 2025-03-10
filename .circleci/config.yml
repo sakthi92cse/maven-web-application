@@ -29,12 +29,43 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t $DOCKER_HUB_USERNAME/mavenwebapp:v6 .
+            docker build -t $DOCKER_HUB_USERNAME/mavenwebapp:v5 .
       - run:
           name: Push Docker image to Docker Hub
           command: |
-            docker push $DOCKER_HUB_USERNAME/mavenwebapp:v6
+            docker push $DOCKER_HUB_USERNAME/mavenwebapp:v5
 
+  deploy-to-eks:
+    docker:
+      - image: amazon/aws-cli:latest
+    steps:
+      - checkout
+      - run:
+          name: Install tar and gzip utilities
+          command: |
+            yum install -y tar gzip  # Install tar and gzip using yum in the amazon/aws-cli image
+      - attach_workspace:
+          at: ./  # Attach the workspace to access the repository files
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x kubectl
+            mv kubectl /usr/local/bin/
+      - run:
+          name: Configure AWS CLI
+          command: |
+            aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+            aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+            aws configure set default.region "$AWS_DEFAULT_REGION"
+      - run:
+          name: Update kubeconfig for EKS cluster
+          command: |
+            aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - run:
+          name: Deploy to EKS
+          command: |
+            kubectl apply -f Kubernetes/mavenwebappdeployment.yaml  # Correct path to mavenwebappdeployment.yaml
 
 workflows:
   version: 2
@@ -44,3 +75,6 @@ workflows:
       - build-and-push-docker-image:
           requires:
             - build
+      - deploy-to-eks:
+          requires:
+            - build-and-push-docker-image
