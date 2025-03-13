@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mavenwebappcontainer
-          image: sivavel/mavenwebapp:v6
+          image: sivavel/mavenwebapp:v1
           ports:
             - containerPort: 8080
 ---
