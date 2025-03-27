@@ -19,6 +19,14 @@ spec:
           image: sivavel/mavenwebapp:v6
           ports:
             - containerPort: 8080
+    spec:
+  syncPolicy:
+    automated:
+      prune: true       # Optional: Removes resources that are no longer in Git
+      selfHeal: true    # Optional: Reverts changes made manually to the cluster
+    syncOptions:
+      - CreateNamespace=true  # Automatically creates namespace if it doesn’t exist
+
 ---
 apiVersion: v1
 kind: Service
